@@ -7,35 +7,51 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject target;
+    public GameObject[] targetList;
     public GameObject ScoreObject;
     public GameObject TimerObject;
+    public GameObject ComboObject;
 
     public static int totalScore = 0;
     public static float timerRemain = 0;
+    public static bool paused = false;
 
     public static List<GameObject> targetsArray = new List<GameObject>();
 
 
-    private void Awake() {
+    private void Awake()
+    {
         if(instance == null){
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
+        } 
+        // else {
+        //     Destroy(gameObject);
+        // }
     }
 
     private void Start() {
         ScoreObject.GetComponent<TextMesh>().text = "Score: "+totalScore;
         TimerObject.GetComponent<TextMesh>().text = "Timer: "+timerRemain;
+        ComboObject.GetComponent<TextMesh>().text = "Combo: "+ComboFuntion.ComboCount;
         // start timer
         StartCoroutine(Countdown());
     }
+    private void Update() {
+        if(ComboObject != null){
+            ComboObject.GetComponent<TextMesh>().text = "Combo: "+ComboFuntion.ComboCount;
+        }
+    }
 
     private IEnumerator Countdown(){
-        timerRemain = 11;
-        float interval = 1;
+        timerRemain = 21;
+        float interval = 0.5f;
         float cumulateInter = 0;
         while(timerRemain >= 0){
+            if(paused) {
+                yield return new WaitForFixedUpdate();
+                continue;
+            }
             ScoreObject.GetComponent<TextMesh>().text = "Score: "+totalScore;
             TimerObject.GetComponent<TextMesh>().text = "Timer: "+(int)timerRemain;
             timerRemain -= Time.deltaTime;
@@ -46,11 +62,13 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
+        ComboFuntion.ComboEnd();
         SceneManager.LoadScene("EndScene", LoadSceneMode.Single);
     }
 
     void generateTargets(){
         // get an available position and R
+        GameObject target = targetList[Random.Range(0,targetList.Length)];
         Vector2 newPos;
         float newR;
         bool conflicted = false;
@@ -74,9 +92,5 @@ public class GameManager : MonoBehaviour
         target.transform.position = new Vector3(newPos.x, newPos.y, 0);
         targetsArray.Add(target);
         Instantiate(target, target.transform.position, Quaternion.identity);
-    }
-
-    public void debugClick(){
-        Debug.Log("Clicked");
     }
 }

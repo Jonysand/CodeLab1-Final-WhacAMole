@@ -48,11 +48,14 @@
      <Compile Include="Assets\Script\ButtonFunction.cs" />
      <Compile Include="Assets\Script\ComboFuntion.cs" />
      <Compile Include="Assets\Script\EndGame.cs" />
+     <Compile Include="Assets\Script\EventManager.cs" />
      <Compile Include="Assets\Script\GameManager.cs" />
      <Compile Include="Assets\Script\SceneFunction.cs" />
      <Compile Include="Assets\Script\Targets Set\TargetBase.cs" />
+     <Compile Include="Assets\Script\Targets Set\TargetFreeze.cs" />
      <Compile Include="Assets\Script\Targets Set\TargetNormal.cs" />
      <Compile Include="Assets\Script\Targets Set\TargetPoison.cs" />
+     <Compile Include="Assets\Script\TimeFreeze.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

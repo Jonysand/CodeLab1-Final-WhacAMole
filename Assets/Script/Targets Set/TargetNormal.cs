@@ -5,8 +5,7 @@ using UnityEngine;
 public class TargetNormal : TargetBase
 {
     public override void clicked(){
-        StopCoroutine(ComboFuntion.ComboTimer());
-        StartCoroutine(ComboFuntion.ComboTimer());
+        EventManager.TriggerEvent("Combo");
         ComboFuntion.ComboCount ++;
         GameManager.totalScore += ComboFuntion.ComboCount;
     }

@@ -1,16 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ComboFuntion : MonoBehaviour
 {
-    public static bool ComboStart = false;
     public static int ComboCount = 0;
-    public static IEnumerator ComboTimer(){
-        Debug.Log("Combo Start");
-        float comboTimerRemain = 1f;
-        ComboStart = true;
-        while(comboTimerRemain >= 0 && ComboStart){
+    public static float comboTimerRemain = 1f;
+
+    private UnityAction someListener;
+
+    private void Awake()
+    {
+        someListener = new UnityAction(ComboStart);
+    }
+
+    private void OnEnable()
+    {
+        EventManager.StartListening("Combo", someListener);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.StopListening("Combo", someListener);
+    }
+
+    public void ComboStart()
+    {
+        StopCoroutine(ComboTimer());
+        StartCoroutine(ComboTimer());
+    }
+
+    public static IEnumerator ComboTimer()
+    {
+        comboTimerRemain = 3f;
+        while (comboTimerRemain >= 0)
+        {
             comboTimerRemain -= Time.deltaTime;
             yield return null;
         }
@@ -18,9 +43,9 @@ public class ComboFuntion : MonoBehaviour
         yield return null;
     }
 
-    public static void ComboEnd(){
-        Debug.Log("Combo End");
-        ComboStart = false;
+    public static void ComboEnd()
+    {
+        comboTimerRemain = 0;
         ComboCount = 1;
     }
 }

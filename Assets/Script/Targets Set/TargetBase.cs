@@ -36,7 +36,7 @@ public class TargetBase : MonoBehaviour
         float timerRemain = lifeDuration + appearingDuration;
         while (timerRemain >= 0)
         {
-            if (GameManager.paused)
+            if (GameManager.paused || TimeFreeze.isFreeze)
             {
                 yield return new WaitForFixedUpdate();
                 continue;
@@ -52,10 +52,17 @@ public class TargetBase : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.paused) { return;}
+        if (GameManager.paused) { return; }
         // score
-        this.clicked();
-        GameManager.targetsArray.Remove(this.gameObject);
-        Destroy(this.gameObject);
+        if (TimeFreeze.isFreeze)
+        {
+            TimeFreeze.clickedWhileFreezed(this.gameObject);
+        }
+        else
+        {
+            this.clicked();
+            GameManager.targetsArray.Remove(this.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 }

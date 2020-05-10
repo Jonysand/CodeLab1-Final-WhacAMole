@@ -27,13 +27,13 @@ public class ComboFuntion : MonoBehaviour
 
     public void ComboStart()
     {
-        StopCoroutine(ComboTimer());
+        // StopCoroutine(ComboTimer());
         StartCoroutine(ComboTimer());
     }
 
     public static IEnumerator ComboTimer()
     {
-        comboTimerRemain = 3f;
+        comboTimerRemain = 5;
         while (comboTimerRemain >= 0)
         {
             comboTimerRemain -= Time.deltaTime;
@@ -46,6 +46,6 @@ public class ComboFuntion : MonoBehaviour
     public static void ComboEnd()
     {
         comboTimerRemain = 0;
-        ComboCount = 1;
+        ComboCount = 0;
     }
 }

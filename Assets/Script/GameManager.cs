@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
     public static bool paused = false;
 
     public static List<GameObject> targetsArray = new List<GameObject>();
+    public AnimationCurve targetsProbCurve;
 
+    public static Color BGColor;
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        BGColor = Camera.main.backgroundColor;
         ScoreObject.GetComponent<TextMesh>().text = "Score: " + totalScore;
         TimerObject.GetComponent<TextMesh>().text = "Timer: " + timerRemain;
         ComboObject.GetComponent<TextMesh>().text = "Combo: " + ComboFuntion.ComboCount;
@@ -54,7 +57,7 @@ public class GameManager : MonoBehaviour
         float cumulateInter = 0;
         while (timerRemain >= 0)
         {
-            if (paused)
+            if (paused || TimeFreeze.isFreeze)
             {
                 yield return new WaitForFixedUpdate();
                 continue;
@@ -77,11 +80,12 @@ public class GameManager : MonoBehaviour
     void generateTargets()
     {
         // get an available position and R
-        GameObject target = targetList[Random.Range(0, targetList.Length)];
+        float targetIndex = targetsProbCurve.Evaluate(Random.value) * targetList.Length;
+        GameObject target = targetList[Mathf.FloorToInt(targetIndex)];
         Vector2 newPos;
         float newR;
         bool conflicted = false;
-        int TrialCount = 5; // after trying multiple times, give up generating
+        int TrialCount = 5; // after trying multiple times, give up generatingå
         while (true)
         {
             newPos = new Vector2(Random.Range(-7f, 7f), Random.Range(-4f, 3.5f));

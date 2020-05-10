@@ -5,6 +5,6 @@ using UnityEngine;
 public class TargetFreeze : TargetBase
 {
     public override void clicked(){
-        
+        EventManager.TriggerEvent("Freeze");
     }
 }

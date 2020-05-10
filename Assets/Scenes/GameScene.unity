@@ -567,9 +567,43 @@ MonoBehaviour:
   targetList:
   - {fileID: 6077246893446439038, guid: b74d60dd84c6742fb8744e348d454f53, type: 3}
   - {fileID: 6077246893446439038, guid: b0a93ec4d8380408f82cc5265327b3de, type: 3}
+  - {fileID: 6077246893446439038, guid: 8e961ff3f121d4cecbbafaaf1521853c, type: 3}
   ScoreObject: {fileID: 853037630}
   TimerObject: {fileID: 694156043}
   ComboObject: {fileID: 1594852210}
+  targetsProbCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.74019074
+      outSlope: 0.74019074
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9001253
+      value: 0.6662644
+      inSlope: 0.9995828
+      outSlope: 0.9995828
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.059085865
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.9882088
+      inSlope: 3.2234833
+      outSlope: 3.2234833
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1047136704
 Transform:
   m_ObjectHideFlags: 0

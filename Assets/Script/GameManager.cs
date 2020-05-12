@@ -21,20 +21,18 @@ public class GameManager : MonoBehaviour
 
     public static Color BGColor;
 
-    private void Awake()
+    private void Start()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        // else {
-        //     Destroy(gameObject);
-        // }
-    }
+        else
+        {
+            Destroy(gameObject);
+        }
 
-    private void Start()
-    {
         BGColor = Camera.main.backgroundColor;
         ScoreObject.GetComponent<TextMesh>().text = "Score: " + totalScore;
         TimerObject.GetComponent<TextMesh>().text = "Timer: " + timerRemain;
@@ -53,8 +51,6 @@ public class GameManager : MonoBehaviour
     private IEnumerator Countdown()
     {
         timerRemain = 21;
-        float interval = 0.5f;
-        float cumulateInter = 0;
         while (timerRemain >= 0)
         {
             if (paused || TimeFreeze.isFreeze)
@@ -65,48 +61,9 @@ public class GameManager : MonoBehaviour
             ScoreObject.GetComponent<TextMesh>().text = "Score: " + totalScore;
             TimerObject.GetComponent<TextMesh>().text = "Timer: " + (int)timerRemain;
             timerRemain -= Time.deltaTime;
-            cumulateInter += Time.deltaTime;
-            if (cumulateInter >= interval)
-            {
-                generateTargets();
-                cumulateInter = 0;
-            }
             yield return null;
         }
         ComboFuntion.ComboEnd();
         SceneManager.LoadScene("EndScene", LoadSceneMode.Single);
-    }
-
-    void generateTargets()
-    {
-        // get an available position and R
-        float targetIndex = targetsProbCurve.Evaluate(Random.value) * targetList.Length;
-        GameObject target = targetList[Mathf.FloorToInt(targetIndex)];
-        Vector2 newPos;
-        float newR;
-        bool conflicted = false;
-        int TrialCount = 5; // after trying multiple times, give up generatingå
-        while (true)
-        {
-            newPos = new Vector2(Random.Range(-7f, 7f), Random.Range(-4f, 3.5f));
-            newR = Random.Range(1f, 2f);
-            conflicted = false;
-            foreach (GameObject oldTarget in targetsArray)
-            {
-                // if conflict exists
-                if (Vector2.Distance(newPos, oldTarget.transform.position) <= (newR + oldTarget.transform.localScale.x) / 2)
-                {
-                    conflicted = true;
-                    break;
-                }
-            }
-            if (!conflicted) break;
-            if (--TrialCount <= 0) return;
-        }
-        // initiate new target
-        target.transform.localScale = new Vector3(newR, newR);
-        target.transform.position = new Vector3(newPos.x, newPos.y, 0);
-        targetsArray.Add(target);
-        Instantiate(target, target.transform.position, Quaternion.identity);
     }
 }

@@ -5,25 +5,21 @@ using UnityEngine;
 public class TargetBase : MonoBehaviour
 {
     public float R;
-    public Vector2 position;
     public AnimationCurve appearingCurve;
     private float appearingDuration = 0.5f;
     public float lifeDuration = 2f;
 
-    private void Start()
+    public void Begin()
     {
-        // animation of appearing
         StartCoroutine(Appearing());
         StartCoroutine(Countdown());
     }
-
-    // Animation of gradually appearing
-    public IEnumerator Appearing()
+    public IEnumerator Appearing() // Animation of gradually appearing
     {
         float time = 0;
         while (time <= 1f)
         {
-            float scale = appearingCurve.Evaluate(time);
+            float scale = appearingCurve.Evaluate(time) * R;
             time = time + Time.deltaTime / appearingDuration;
             transform.localScale = new Vector3(scale, scale, 1);
             yield return new WaitForFixedUpdate();
@@ -44,8 +40,12 @@ public class TargetBase : MonoBehaviour
             timerRemain -= Time.deltaTime;
             yield return null;
         }
-        GameManager.targetsArray.Remove(gameObject);
-        Destroy(gameObject);
+        this.remove();
+    }
+    public void remove()
+    {
+        TargetsPool.instance.LiveTargetsArray.Remove(gameObject);
+        TargetsPool.instance.Push(gameObject);
     }
 
     public virtual void clicked() { }
@@ -61,8 +61,7 @@ public class TargetBase : MonoBehaviour
         else
         {
             this.clicked();
-            GameManager.targetsArray.Remove(this.gameObject);
-            Destroy(this.gameObject);
+            this.remove();
         }
     }
 }

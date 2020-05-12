@@ -71,8 +71,7 @@ public class TimeFreeze : MonoBehaviour
         foreach (GameObject shotTarget in shotsArray)
         {
             shotTarget.GetComponent<TargetBase>().clicked();
-            GameManager.targetsArray.Remove(shotTarget);
-            Destroy(shotTarget);
+            shotTarget.GetComponent<TargetBase>().remove();
         }
     }
 }

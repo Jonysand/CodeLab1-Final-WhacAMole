@@ -26,7 +26,7 @@ public class TimeFreeze : MonoBehaviour
     {
         EventManager.StopListening("Freeze", someListener);
     }
-    
+
     public void StartFreeze()
     {
         StartCoroutine(FreezeCountDown());
@@ -42,8 +42,8 @@ public class TimeFreeze : MonoBehaviour
         TimerRemain = freezeDuration;
 
         // change background color when freezing
-        Camera.main.backgroundColor = Color.grey;
-        
+        Camera.main.backgroundColor = new Color(128, 128, 128);
+
         // init storing data
         shotsArray.Clear();
 
@@ -67,7 +67,6 @@ public class TimeFreeze : MonoBehaviour
     {
         // restore background color
         Camera.main.backgroundColor = GameManager.BGColor;
-
         foreach (GameObject shotTarget in shotsArray)
         {
             shotTarget.GetComponent<TargetBase>().clicked();

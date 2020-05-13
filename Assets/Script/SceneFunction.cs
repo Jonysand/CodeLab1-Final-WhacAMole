@@ -14,4 +14,8 @@ public class SceneFunction : MonoBehaviour
         GameManager.totalScore = 0;
         SceneManager.LoadScene("StartScene", LoadSceneMode.Single);
     }
+
+    public void showRank(){
+        SceneManager.LoadScene("RankScene", LoadSceneMode.Additive);
+    }
 }

@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Countdown()
     {
-        timerRemain = 10;
+        timerRemain = 30;
         while (timerRemain >= 0)
         {
             if (paused || TimeFreeze.isFreeze)
